@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package thumbnail;
+
+option go_package = "github.com/vX8q/youtube-thumbnail-proxy/proto";
+
+service ThumbnailService {
+  rpc GetThumbnail(ThumbnailRequest) returns (ThumbnailResponse);
+}
+
+message ThumbnailRequest {
+  string video_id = 1; // Уникальный идентификатор видео
+  ThumbnailSize size = 2; // Выбор размера миниатюры
+}
+
+message ThumbnailResponse {
+  oneof response {
+    bytes thumbnail_data = 1; // Проксированное изображение
+    string thumbnail_url = 2;  // Прямая ссылка на миниатюру
+  }
+}
+
+enum ThumbnailSize {
+  DEFAULT = 0;   // 120x90
+  MEDIUM = 1;    // 320x180
+  HIGH = 2;      // 480x360
+  STANDARD = 3;  // 640x480
+  MAXRES = 4;    // 1280x720
+}
